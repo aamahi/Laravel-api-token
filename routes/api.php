@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/artical',[ArticalController::class],'getAllAritcals');
+Route::get('/artical','ArticalController@getAllAritcals');
 Route::get('/artical/{id}',[ArticalController::class],'getAritcals');
 Route::post('/artical',[ArticalController::class],'createAritcal');
 Route::put('/artical/{id}',[ArticalController::class],'updateAritcal');
