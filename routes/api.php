@@ -20,12 +20,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/artical','ArticalController@getAllAritcals');
-Route::get('/artical/{id}',[ArticalController::class],'getAritcals');
-Route::post('/artical',[ArticalController::class],'createAritcal');
-Route::put('/artical/{id}',[ArticalController::class],'updateAritcal');
-Route::delete('/artical/{id}',[ArticalController::class],'deleteAritcal');
+Route::get('/artical','ArticalController@getAllArticals');
+Route::get('/artical/{artical}','ArticalController@getArticals');
+Route::middleware('auth:api')->group(function (){
+    Route::post('/artical',[ArticalController::class],'createAritcal');
+    Route::put('/artical/{id}',[ArticalController::class],'updateAritcal');
+    Route::delete('/artical/{id}',[ArticalController::class],'deleteAritcal');
 
+});
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::get('/create',function (){
     \App\User::forceCreate([
@@ -38,4 +44,14 @@ Route::get('/create',function (){
         'email'=>"mahi@rapa.com",
         'password'=>Hash::make('rapamahi'),
     ]);
+});
+
+Route::get("/tokenc",function (){
+     $user = \App\User::find(1);
+     $user->api_token = Str::random(80);
+     $user->save();
+
+    $user = \App\User::find(2);
+    $user->api_token = Str::random(80);
+    $user->save();
 });
